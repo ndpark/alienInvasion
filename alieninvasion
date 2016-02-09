@@ -1,0 +1,20 @@
+<NotepadPlus>
+    <Project name="AlienInvasion">
+        <Folder name="__pycache__">
+            <File name="__pycache__\alien.cpython-35.pyc" />
+            <File name="__pycache__\bullet.cpython-35.pyc" />
+            <File name="__pycache__\game_functions.cpython-35.pyc" />
+            <File name="__pycache__\settings.cpython-35.pyc" />
+            <File name="__pycache__\ship.cpython-35.pyc" />
+        </Folder>
+        <File name="alien.bmp" />
+        <File name="alien.py" />
+        <File name="alien_invasion.py" />
+        <File name="bullet.py" />
+        <File name="game_functions.py" />
+        <File name="settings.py" />
+        <File name="ship.bmp" />
+        <File name="ship.py" />
+        <File name="Thumbs.db" />
+    </Project>
+</NotepadPlus>
