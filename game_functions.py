@@ -6,7 +6,7 @@ from bullet import Bullet
 from alien import Alien
 from time import sleep
 
-def checkKeyDownEvents(event, aiSettings,screen, ship, bullets):
+def checkKeyDownEvents(event, aiSettings, screen, stats, playButton, ship, aliens, bullets):
 #Respond to keypresses and mouse events
 	if event.key == pygame.K_RIGHT:
 		ship.moving_right = True
@@ -20,6 +20,8 @@ def checkKeyDownEvents(event, aiSettings,screen, ship, bullets):
 		fire_bullet(aiSettings, screen, ship, bullets)
 	elif event.key == pygame.K_q:
 		sys.exit()
+	elif event.key == pygame.K_p:
+		startGame(aiSettings, stats, screen, ship, aliens, bullets)
 		
 def checkKeyUpEvents(event,ship):
 	#When the key is not held down
@@ -32,34 +34,36 @@ def checkKeyUpEvents(event,ship):
 	if event.key == pygame.K_DOWN:
 		ship.moving_down = False
 		
-def check_events(aiSettings ,screen ,stats, playButton, ship , aliens, bullets):
+def check_events(aiSettings, screen, stats, playButton, ship, aliens, bullets):
 	for event in pygame.event.get():
-		if event.type == pygame.K_q:
+		if event.type == pygame.QUIT:
 			sys.exit()
 		elif event.type == pygame.KEYDOWN:
-			checkKeyDownEvents(event, aiSettings, screen, ship, bullets)
+			checkKeyDownEvents(event, aiSettings, screen, stats, playButton, ship, aliens, bullets)
 		elif event.type == pygame.KEYUP:
 			checkKeyUpEvents(event,ship)
 		elif event.type == pygame.MOUSEBUTTONDOWN:
 			mouse_x, mouse_y = pygame.mouse.get_pos()
 			checkPlayButton(aiSettings, screen, stats, playButton, ship, aliens, bullets, mouse_x, mouse_y)
 		
+def startGame(aiSettings, stats, screen, ship, aliens, bullets):
+	stats.resetStats()
+	stats.game_active = True
 		
+	#Erase the whole game screen
+	aliens.empty()
+	bullets.empty()
+	
+	#Restart game
+	createFleet(aiSettings, screen, ship, aliens)
+	ship.centerShip()
+		
+	pygame.mouse.set_visible(False)
+	
 def checkPlayButton(aiSettings, screen, stats, playButton, ship, aliens, bullets, mouse_x, mouse_y):
 	buttonClicked = playButton.rect.collidepoint(mouse_x,mouse_y)
 	if buttonClicked and not stats.game_active:	
-		stats.resetStats()
-		stats.game_active = True
-			
-		#Erase the whole game screen
-		aliens.empty()
-		bullets.empty()
-		
-		#Restart game
-		createFleet(aiSettings, screen, ship, aliens)
-		ship.centerShip()
-		
-		pygame.mouse.set_visible(False)
+		startGame(aiSettings, stats, screen, ship, aliens, bullets)
 		
 def update_screen(aiSettings, screen, stats, ship, aliens, bullets, playButton):
 	#Redraws screen
