@@ -53,6 +53,8 @@ def startGame(aiSettings, stats, screen, sb, ship, aliens, bullets):
 	sb.prepScore()
 	sb.prepHighScore()
 	sb.prepLevel()
+	sb.prepShips()
+
 	
 	#Erase the whole game screen
 	aliens.empty()
@@ -147,15 +149,15 @@ def createFleet(aiSettings, screen, ship, aliens):
 		for alienNumber in range(numberAliensX):
 			createAlien(aiSettings, screen, aliens, alienNumber, rowNumber)
 
-def updateAliens(aiSettings, stats, screen, ship, aliens, bullets):
+def updateAliens(aiSettings, stats, screen, ship, sb,  aliens, bullets):
 	"""Updates position of all aliens"""
 	checkFleetEdges(aiSettings, aliens)
 	aliens.update() #Moves aliens 1 pixel to the right
 	
 	if pygame.sprite.spritecollideany(ship, aliens):
-		shipHit(aiSettings, stats, screen, ship, aliens, bullets)
+		shipHit(aiSettings, stats, screen, ship, sb, aliens, bullets)
 	
-	checkAliensBottom(aiSettings, stats, screen, ship, aliens, bullets)
+	checkAliensBottom(aiSettings, stats, screen, ship, sb, aliens, bullets)
 		
 def getNumberRows(aiSettings,shipHeight, alienHeight):
 	"""Determine number of rows aliens that fit on the screen"""
@@ -174,10 +176,11 @@ def changeFleetDirection(aiSettings, aliens):
 		alien.rect.y += aiSettings.fleetDropSpeed
 	aiSettings.fleetDirection *= -1
 	
-def shipHit(aiSettings, stats, screen, ship, aliens, bullets):
+def shipHit(aiSettings, stats, screen, ship, sb, aliens, bullets):
 	"""Respond to hit by alien"""
 	if stats.shipsLeft > 0 :
 		stats.shipsLeft -=1 #Decrement 'life'
+		sb.prepShips()
 	else:
 		stats.game_active = False
 		pygame.mouse.set_visible(True)
@@ -193,12 +196,12 @@ def shipHit(aiSettings, stats, screen, ship, aliens, bullets):
 	sleep(0.5)
 
 	
-def checkAliensBottom(aiSettings, stats, screen, ship, aliens, bullets):
+def checkAliensBottom(aiSettings, stats, screen, ship, sb, aliens, bullets):
 	"""did aliens win?"""
 	screenRect = screen.get_rect()
 	for alien in aliens.sprites():
 		if alien.rect.bottom >= screenRect.bottom:
-			shipHit(aiSettings, stats, screen, ship, aliens, bullets)
+			shipHit(aiSettings, stats, screen, ship, sb, aliens, bullets)
 			break
 
 def checkHighScore(stats, sb):

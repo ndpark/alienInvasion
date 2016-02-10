@@ -1,4 +1,6 @@
 import pygame.font
+from pygame.sprite import Group
+from ship import Ship
 
 class Scoreboard():
 	"""Contains score"""
@@ -17,6 +19,7 @@ class Scoreboard():
 		self.prepScore()
 		self.prepHighScore()
 		self.prepLevel()
+		self.prepShips()
 		
 	def prepScore(self):
 		"""Score into image"""
@@ -34,6 +37,7 @@ class Scoreboard():
 		self.screen.blit(self.scoreImage, self.scoreRect)
 		self.screen.blit(self.highScoreImage, self.highScoreRect)
 		self.screen.blit(self.levelImage, self.levelRect)
+		self.ships.draw(self.screen)
 		
 	def prepHighScore(self):
 		highScore = int(round(self.stats.highScore, -1))
@@ -52,3 +56,12 @@ class Scoreboard():
 		self.levelRect = self.levelImage.get_rect()
 		self.levelRect.right = self.scoreRect.right
 		self.levelRect.top = self.scoreRect.bottom + 10
+		
+	def prepShips(self):
+		"""How many ships left"""
+		self.ships = Group()
+		for shipNumber in range(self.stats.shipsLeft):
+			ship = Ship(self.aiSettings, self.screen)
+			ship.rect.x = 10 + shipNumber * ship.rect.width
+			ship.rect.y = 10
+			self.ships.add(ship)
