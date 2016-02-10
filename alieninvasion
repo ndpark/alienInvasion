@@ -16,5 +16,6 @@
         <File name="ship.bmp" />
         <File name="ship.py" />
         <File name="Thumbs.db" />
+        <File name="scoreboard.py" />
     </Project>
 </NotepadPlus>

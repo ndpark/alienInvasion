@@ -10,6 +10,7 @@ from ship import Ship
 from gameStats import GameStats
 import game_functions as gf
 from buttons import Button
+from scoreboard import Scoreboard
 
 
 def run_game():
@@ -25,6 +26,7 @@ def run_game():
 	#Sets background colour
 	
 	stats = GameStats(aiSettings)
+	sb = Scoreboard(aiSettings, screen, stats)
 	
 	
 	#Makes a ship on screen
@@ -40,13 +42,14 @@ def run_game():
 	playButton = Button(aiSettings, screen, "Click to Play")
 	
 	while True:
-		gf.check_events(aiSettings, screen, stats, playButton, ship, aliens, bullets)
+		gf.check_events(aiSettings, screen, stats, sb, playButton, ship, aliens, bullets)
+		sb.showScore()
 		if stats.game_active:
 			ship.update()
-			gf.updateBullets(aiSettings, screen, ship, aliens, bullets)
+			gf.updateBullets(aiSettings, screen, stats, sb, ship, aliens, bullets)
 			gf.updateAliens(aiSettings, stats, screen, ship, aliens, bullets)
 	
-		gf.update_screen(aiSettings, screen, stats, ship, aliens, bullets, playButton)
+		gf.update_screen(aiSettings, screen, stats, sb, ship, aliens, bullets, playButton)
 	
 
 
