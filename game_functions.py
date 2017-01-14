@@ -106,6 +106,7 @@ def updateBullets(aiSettings, screen, stats, sb, ship, aliens, bullets):
 def checkCollision(aiSettings, screen, stats, sb, ship, aliens, bullets):
 	#Checks for collision then gets rid of both bullet and alien if hit
 	collisions = pygame.sprite.groupcollide(bullets,aliens,True, True)
+
 	if collisions:
 		for aliens in collisions.values():
 			stats.score += aiSettings.alienPoints * len(aliens)
@@ -208,3 +209,5 @@ def checkHighScore(stats, sb):
 	if stats.score > stats.highScore:
 		stats.highScore = stats.score
 		sb.prepHighScore()
+		
+	
